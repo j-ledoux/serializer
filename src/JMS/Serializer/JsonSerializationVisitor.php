@@ -67,6 +67,12 @@ class JsonSerializationVisitor extends GenericSerializationVisitor
     {
         $rs = parent::endVisitingObject($metadata, $data, $type, $context);
 
+        /**
+         * Fix array serialized as object issue
+         * @see  https://github.com/schmittjoh/JMSSerializerBundle/issues/373
+         */
+        return $rs;
+
         // Force JSON output to "{}" instead of "[]" if it contains either no properties or all properties are null.
         if (empty($rs)) {
             $rs = new \ArrayObject();
